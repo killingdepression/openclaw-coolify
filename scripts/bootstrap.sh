@@ -121,9 +121,9 @@ cat >"$CONFIG_FILE" <<EOF
     }
   },
   "gateway": {
-    "port": 18789,
+    "port": ${CLAWDBOT_GATEWAY_PORT:-18789},
     "mode": "local",
-    "bind": "auto",
+    "bind": "${CLAWDBOT_GATEWAY_BIND:-auto}",
     "controlUi": {
       "enabled": true,
       "allowInsecureAuth": false
