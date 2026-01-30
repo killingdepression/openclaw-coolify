@@ -469,6 +469,19 @@ if [ "${OPENCLAW_PRINT_ACCESS:-1}" = "1" ]; then
   echo ""
 fi
 
+# Cloudflare Tunnel Status
+if [ -n "$CF_TUNNEL_TOKEN" ]; then
+    if command -v cloudflared >/dev/null; then
+        cloudflared tunnel run --token "$CF_TUNNEL_TOKEN" > /var/log/cloudflared.log 2>&1 &
+        echo "🚇 Custom Cloudflare Tunnel: ACTIVE (Serving on your private domain)"
+    else
+        echo "⚠️ Cloudflared binary missing. Tunnel skipped."
+    fi
+else
+    echo "🌐 Public Access: Using Default Coolify Proxy."
+    echo "   (Tip: Set CF_TUNNEL_TOKEN to use your own custom domain)"
+fi
+
 # Run the openclaw gateway using the global binary
 exec openclaw gateway
 
