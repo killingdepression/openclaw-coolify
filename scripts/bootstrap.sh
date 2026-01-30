@@ -474,13 +474,6 @@ if command -v openclaw >/dev/null 2>&1; then
   openclaw doctor --fix || true
 fi
 
-exec openclaw gateway
-
-echo ""
-echo "💡 If you want to set up custom model and with custom API key, you can run this command first:"
-echo "   exec openclaw onboard"
-echo ""
-
 if [ "${OPENCLAW_PRINT_ACCESS:-1}" = "1" ]; then
   if [ "${OPENCLAW_BETA:-false}" = "true" ]; then
     echo "🧪 OPENCLAW BETA MODE ACTIVE"
@@ -495,3 +488,5 @@ if [ "${OPENCLAW_PRINT_ACCESS:-1}" = "1" ]; then
   echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
   echo ""
 fi
+
+exec openclaw gateway
