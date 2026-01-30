@@ -130,6 +130,25 @@ services:
       - POSTGRES_DB=miniflux
     volumes:
       - miniflux-db:/var/lib/postgresql/data
+  
+  searxng:
+    image: searxng/searxng:latest
+    restart: unless-stopped
+    ports:
+      - "8888:8080" # Host 8888 -> Internal 8080
+    environment:
+      - SEARXNG_BASE_URL=http://localhost:8888/
+      - SEARXNG_URL=http://localhost:8888/
+      # Enable JSON format
+    volumes:
+      - searxng-data:/etc/searxng
+    cap_drop:
+      - ALL
+    cap_add:
+      - CHOWN
+      - SETGID
+      - SETUID
+
 
 volumes:
   openclaw-config:
@@ -139,3 +158,4 @@ volumes:
   qdrant-data:
   linkding-data:
   miniflux-db:
+  searxng-data:

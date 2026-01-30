@@ -29,7 +29,9 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     graphviz \
     sqlite3 \
     pass \
+    chromium \
     && rm -rf /var/lib/apt/lists/*
+
 
 # Install Go (Latest)
 RUN curl -L "https://go.dev/dl/go1.23.4.linux-amd64.tar.gz" -o go.tar.gz && \
@@ -69,7 +71,8 @@ RUN bun install -g vercel @marp-team/marp-cli https://github.com/tobi/qmd && has
 ENV XDG_CACHE_HOME="/root/.moltbot/cache"
 
 # Python tools
-RUN pip3 install ipython csvkit openpyxl python-docx pypdf --break-system-packages
+RUN pip3 install ipython csvkit openpyxl python-docx pypdf botasaurus browser-use --break-system-packages
+
 
 # Debian aliases
 RUN ln -s /usr/bin/fdfind /usr/bin/fd || true && \
@@ -103,9 +106,10 @@ RUN if [ "$OPENCLAW_BETA" = "true" ]; then \
 
 RUN bun pm -g untrusted
 # AI Tool Suite
-RUN bun install -g @openai/codex @google/gemini-cli opencode-ai && \
+RUN bun install -g @openai/codex @google/gemini-cli opencode-ai @steipete/summarize && \
     curl -fsSL https://claude.ai/install.sh | bash && \
     curl -L https://code.kimi.com/install.sh | bash
+
 
 RUN ln -sf /root/.claude/bin/claude /usr/local/bin/claude || true && \
     ln -sf /root/.kimi/bin/kimi /usr/local/bin/kimi || true
