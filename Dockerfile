@@ -87,7 +87,11 @@ RUN --mount=type=cache,target=/data/.npm \
 
 # Claude + Kimi
 RUN curl -fsSL https://claude.ai/install.sh | bash && \
-    curl -L https://code.kimi.com/install.sh | bash
+    curl -L https://code.kimi.com/install.sh | bash && \
+    command -v uv
+
+# Make sure uv and other local bins are available
+ENV PATH="/root/.local/bin:${PATH}"
 
 ########################################
 # Stage 4: Final
@@ -102,7 +106,6 @@ RUN ln -sf /data/.claude/bin/claude /usr/local/bin/claude || true && \
     ln -sf /data/.kimi/bin/kimi /usr/local/bin/kimi || true && \
     chmod +x /app/scripts/*.sh
 
-ENV PATH="/usr/local/go/bin:/usr/local/bin:/usr/bin:/bin:/data/.bun/bin:/data/.bun/install/global/bin:/data/.claude/bin:/data/.kimi/bin"
-
+ENV PATH="/root/.local/bin:/usr/local/go/bin:/usr/local/bin:/usr/bin:/bin:/data/.bun/bin:/data/.bun/install/global/bin:/data/.claude/bin:/data/.kimi/bin"
 EXPOSE 18789
 CMD ["bash", "/app/scripts/bootstrap.sh"]
