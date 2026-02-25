@@ -101,7 +101,7 @@ services:
     depends_on:
       - docker-proxy
 
-    command: ["bash", "/app/scripts/bootstrap.sh"]
+    command: bash -c "command -v openclaw || npm install -g openclaw@latest && bash /app/scripts/bootstrap.sh"
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:18789/"]
       interval: 30s
