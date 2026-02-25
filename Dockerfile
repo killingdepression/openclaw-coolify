@@ -86,8 +86,7 @@ RUN --mount=type=cache,target=/data/.npm \
     fi 
 
 # Install uv explicitly
-RUN curl -L https://github.com/azlux/uv/releases/latest/download/uv-linux-x64 -o /usr/local/bin/uv && \
-    chmod +x /usr/local/bin/uv
+RUN pip3 install uv --break-system-packages
 
 # Claude + Kimi
 RUN curl -fsSL https://claude.ai/install.sh | bash && \
