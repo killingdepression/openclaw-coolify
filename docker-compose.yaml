@@ -6,6 +6,7 @@ services:
       - registry-data:/var/lib/registry
     environment:
       REGISTRY_HTTP_SECRET: ${SERVICE_BASE64_REGISTRY}
+  
   openclaw:
     build:
       context: .
@@ -19,6 +20,9 @@ services:
     env_file:
       - .env
     environment:
+      # 🔥 ده السطر اللي هيحل مشكلة الـ not found والشاشة السودا
+      PATH: "/usr/local/lib/node_modules/.bin:/root/.local/bin:/usr/local/go/bin:/usr/local/bin:/usr/bin:/bin:/data/.bun/bin:/data/.bun/install/global/bin:/data/.claude/bin:/data/.kimi/bin"
+      
       DOCKER_HOST: tcp://docker-proxy:2375
       OPENCLAW_ENABLE_WEBHOOK_PROXY: "1"
       PORT: 18789
@@ -26,7 +30,7 @@ services:
       NODE_OPTIONS: '--max-old-space-size=4096'
       HOME: /data
       TERM: xterm-256color
-      PATH: "/usr/local/lib/node_modules/.bin:/root/.local/bin:/usr/local/go/bin:/usr/local/bin:/usr/bin:/bin:/data/.bun/bin:/data/.bun/install/global/bin:/data/.claude/bin:/data/.kimi/bin"
+      
       # Persistence: Command History
       HISTFILE: /data/.bash_history
       HISTSIZE: 50000
@@ -37,10 +41,10 @@ services:
       XDG_CACHE_HOME: /data/.cache
       NPM_CONFIG_CACHE: /data/.npm
       BUN_INSTALL: /data/.bun
+      
       # Map OpenClaw vars
       OPENCLAW_GATEWAY_BIND: lan
       OPENCLAW_GATEWAY_PORT: ${OPENCLAW_GATEWAY_PORT:-18789}
-      # Tell the binary where to look for state/config
       OPENCLAW_STATE_DIR: /data/.openclaw
       OPENCLAW_WORKSPACE: /data/openclaw-workspace
 
@@ -64,15 +68,18 @@ services:
       SERVICE_URL_OPENCLAWWEBHOOK_8788: null
       BASE_URL: 'https://${SERVICE_FQDN_OPENCLAW}'
       PUBLIC_URL: 'https://${SERVICE_FQDN_OPENCLAW}'
+      
       # Bootstrap controls
       OPENCLAW_AUTO_BOOTSTRAP: "1"
       OPENCLAW_PRINT_ACCESS: "1"
       GATEWAY_TRUSTED_PROXIES: '*'
+      
       # Fix for EMFILE/Inotify issues in Docker
       CHOKIDAR_USEPOLLING: "true"
-      # Public URL Access
 
+      # Public URL Access
       CF_TUNNEL_TOKEN: ${CF_TUNNEL_TOKEN}
+      
       # Deployment & Git
       VERCEL_ORG_ID: ${VERCEL_ORG_ID}
       VERCEL_PROJECT_ID: ${VERCEL_PROJECT_ID}
@@ -80,6 +87,7 @@ services:
       GITHUB_TOKEN: ${GITHUB_TOKEN}
       GITHUB_USERNAME: ${GITHUB_USERNAME}
       GITHUB_EMAIL: ${GITHUB_EMAIL}
+      
       # Optional
       OPENCLAW_BETA: ${OPENCLAW_BETA:-false}
 
@@ -107,15 +115,14 @@ services:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
     environment:
-      # Security: Only enable necessary Docker APIs
-      POST: 1       # Create containers
-      CONTAINERS: 1 # List/manage containers
-      IMAGES: 1     # Pull images
-      NETWORKS: 1   # Connect to networks
-      INFO: 1       # Version check
+      POST: 1       
+      CONTAINERS: 1 
+      IMAGES: 1     
+      NETWORKS: 1   
+      INFO: 1       
       VERSION: 1
-      EXEC: 1       # Run commands (exec)
-      EVENTS: 1     # Listen for events (if needed)
+      EXEC: 1       
+      EVENTS: 1     
 
   searxng:
     build:
