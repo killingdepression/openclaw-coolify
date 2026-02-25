@@ -26,6 +26,7 @@ services:
       NODE_OPTIONS: '--max-old-space-size=4096'
       HOME: /data
       TERM: xterm-256color
+      PATH: "/usr/local/lib/node_modules/.bin:/root/.local/bin:/usr/local/go/bin:/usr/local/bin:/usr/bin:/bin:/data/.bun/bin:/data/.bun/install/global/bin:/data/.claude/bin:/data/.kimi/bin"
       # Persistence: Command History
       HISTFILE: /data/.bash_history
       HISTSIZE: 50000
