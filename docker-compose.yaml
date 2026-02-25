@@ -140,3 +140,5 @@ volumes:
   openclaw-workspace:
   searxng-data:
   registry-data:
+  - /usr/bin/docker:/usr/bin/docker
+  - /var/run/docker.sock:/var/run/docker.sock
